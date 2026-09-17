@@ -2,25 +2,18 @@ from collections import defaultdict, deque
 
 class GrafoMetro:
     def __init__(self):
-        # Usamos un diccionario de listas para la lista de adyacencia
         self.grafo = defaultdict(list)
 
     def agregar_arista(self, origen, destino):
-        # Como el metro va en ambas direcciones, el grafo es no dirigido
         self.grafo[origen].append(destino)
         self.grafo[destino].append(origen)
 
     def agregar_linea(self, estaciones):
-        # Conecta estaciones consecutivas de una línea
         for i in range(len(estaciones) - 1):
             self.agregar_arista(estaciones[i], estaciones[i+1])
 
     def bfs_ruta_corta(self, inicio, destino):
-        """
-        Búsqueda en Anchura (BFS).
-        Garantiza la ruta más corta en grafos de costo unitario.
-        Usa una Cola (Queue).
-        """
+        """Búsqueda en Anchura (Ruta más corta)"""
         if inicio not in self.grafo or destino not in self.grafo:
             return None
 
@@ -41,11 +34,7 @@ class GrafoMetro:
         return None
 
     def dfs_ruta_alternativa(self, inicio, destino):
-        """
-        Búsqueda en Profundidad (DFS).
-        Encuentra una ruta, pero raramente es la más corta.
-        Usa una Pila (Stack).
-        """
+        """Búsqueda en Profundidad (Ruta profunda, no óptima)"""
         if inicio not in self.grafo or destino not in self.grafo:
             return None
 
@@ -68,13 +57,12 @@ class GrafoMetro:
 def construir_metro():
     metro = GrafoMetro()
     
-    # Definimos las líneas principales necesarias para las rutas solicitadas
-    # (Se incluyen las estaciones de las Líneas 1, 2, 3 y 5)
+    # 🚇 LAS 12 LÍNEAS DEL METRO DE LA CDMX
     
     linea_1 = ["Observatorio", "Tacubaya", "Juanacatlán", "Chapultepec", "Sevilla", 
                "Insurgentes", "Cuauhtémoc", "Balderas", "Salto del Agua", "Isabel la Católica", 
                "Pino Suárez", "Merced", "Candelaria", "San Lázaro", "Moctezuma", 
-               "Balbuena", "Boulevard Puerto Aéreo", "Gómez Farías", "Zaragoza", "Pantitlan"]
+               "Balbuena", "Boulevard Puerto Aéreo", "Gómez Farías", "Zaragoza", "Pantitlán"]
                
     linea_2 = ["Cuatro Caminos", "Panteones", "Tacuba", "Cuitláhuac", "Popotla", 
                "Colegio Militar", "Normal", "San Cosme", "Revolución", "Hidalgo", 
@@ -88,22 +76,56 @@ def construir_metro():
                "División del Norte", "Zapata", "Coyoacán", "Viveros", 
                "Miguel Ángel de Quevedo", "Copilco", "Universidad"]
                
+    linea_4 = ["Martín Carrera", "Talismán", "Bondojito", "Consulado", "Canal del Norte", 
+               "Morelos", "Candelaria", "Fray Servando", "Jamaica", "Santa Anita"]
+               
     linea_5 = ["Politécnico", "Instituto del Petróleo", "Autobuses del Norte", "La Raza", 
                "Misterios", "Valle Gómez", "Consulado", "Eduardo Molina", "Aragón", 
-               "Oceania", "Terminal Aérea", "Hangares", "Pantitlan"]
+               "Oceanía", "Terminal Aérea", "Hangares", "Pantitlán"]
+               
+    linea_6 = ["El Rosario", "Tezozómoc", "UAM-Azcapotzalco", "Ferrería", "Norte 45", 
+               "Vallejo", "Instituto del Petróleo", "Lindavista", "Deportivo 18 de Marzo", 
+               "La Villa-Basílica", "Martín Carrera"]
+               
+    linea_7 = ["El Rosario", "Aquiles Serdán", "Camarones", "Refinería", "Tacuba", 
+               "San Joaquín", "Polanco", "Auditorio", "Constituyentes", "Tacubaya", 
+               "San Pedro de los Pinos", "San Antonio", "Mixcoac", "Barranca del Muerto"]
+               
+    linea_8 = ["Garibaldi", "Bellas Artes", "San Juan de Letrán", "Salto del Agua", 
+               "Doctores", "Obrera", "Chabacano", "La Viga", "Santa Anita", "Coyuya", 
+               "Iztacalco", "Apatlaco", "Aculco", "Escuadrón 201", "Atlalilco", 
+               "Iztapalapa", "Cerro de la Estrella", "UAM-I", "Constitución de 1917"]
+               
+    linea_9 = ["Tacubaya", "Patriotismo", "Chilpancingo", "Centro Médico", "Lázaro Cárdenas", 
+               "Chabacano", "Jamaica", "Mixiuhca", "Velódromo", "Ciudad Deportiva", 
+               "Puebla", "Pantitlán"]
+               
+    linea_A = ["Pantitlán", "Agrícola Oriental", "Canal de San Juan", "Tepalcates", 
+               "Guelatao", "Peñón Viejo", "Acatitla", "Santa Marta", "Los Reyes", "La Paz"]
+               
+    linea_B = ["Buenavista", "Guerrero", "Garibaldi", "Lagunilla", "Tepito", "Morelos", 
+               "San Lázaro", "Ricardo Flores Magón", "Romero Rubio", "Oceanía", 
+               "Deportivo Oceanía", "Bosque de Aragón", "Villa de Aragón", "Nezahualcóyotl", 
+               "Impulsora", "Río de los Remedios", "Múzquiz", "Ecatepec", "Olímpica", 
+               "Plaza Aragón", "Ciudad Azteca"]
+               
+    linea_12 = ["Mixcoac", "Insurgentes Sur", "Hospital 20 de Noviembre", "Zapata", 
+                "Parque de los Venados", "Eje Central", "Ermita", "Mexicaltzingo", 
+                "Atlalilco", "Culhuacán", "San Andrés Tomatlán", "Lomas Estrella", 
+                "Calle 11", "Periférico Oriente", "Tezonco", "Olivos", "Nopalera", 
+                "Zapotitlán", "Tlaltenco", "Tláhuac"]
 
-    # Agregamos las líneas al grafo
-    metro.agregar_linea(linea_1)
-    metro.agregar_linea(linea_2)
-    metro.agregar_linea(linea_3)
-    metro.agregar_linea(linea_5)
+    # Agregamos todas las líneas al grafo
+    for linea in [linea_1, linea_2, linea_3, linea_4, linea_5, linea_6, 
+                  linea_7, linea_8, linea_9, linea_A, linea_B, linea_12]:
+        metro.agregar_linea(linea)
 
     return metro
 
 def imprimir_resultados(metro, origen, destino):
-    print(f"\n{'='*50}")
+    print(f"\n{'='*60}")
     print(f"Ruta: {origen} -> {destino}")
-    print(f"{'='*50}")
+    print(f"{'='*60}")
 
     ruta_bfs = metro.bfs_ruta_corta(origen, destino)
     print("🚇 Resultado BFS (Ruta más corta / Costo Unitario):")
@@ -111,7 +133,7 @@ def imprimir_resultados(metro, origen, destino):
         print(f"Total estaciones (Costo): {len(ruta_bfs) - 1}")
         print(" -> ".join(ruta_bfs))
     else:
-        print("Ruta no encontrada.")
+        print("Ruta no encontrada. (Verifica la ortografía de las estaciones)")
 
     print("\n🛤️  Resultado DFS (Ruta explorada en profundidad):")
     ruta_dfs = metro.dfs_ruta_alternativa(origen, destino)
@@ -124,11 +146,11 @@ def imprimir_resultados(metro, origen, destino):
 if __name__ == "__main__":
     metro_cdmx = construir_metro()
 
-    # 1. Cuatro Caminos -> Pantitlan
-    imprimir_resultados(metro_cdmx, "Cuatro Caminos", "Pantitlan")
+    # 1. Cuatro Caminos -> Pantitlán
+    imprimir_resultados(metro_cdmx, "Cuatro Caminos", "Pantitlán")
 
     # 2. Politécnico -> Taxqueña
     imprimir_resultados(metro_cdmx, "Politécnico", "Taxqueña")
 
-    # 3. Zapata -> Oceania
-    imprimir_resultados(metro_cdmx, "Zapata", "Oceania")  
+    # 3. Zapata -> Oceanía
+    imprimir_resultados(metro_cdmx, "Zapata", "Oceanía")
