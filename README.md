@@ -15,6 +15,14 @@ El programa evalúa y muestra los resultados de ambos algoritmos para las siguie
 2. Politécnico ➔ Taxqueña
 3. Zapata ➔ Oceanía
 
+## 🧮 Sobre el Cálculo de Costo
+El modelo utiliza un esquema de **costo unitario**, lo que significa que avanzar de una estación a su estación vecina inmediata tiene un costo exacto de **1**. 
+
+* No se toman en cuenta distancias físicas en kilómetros ni tiempos promedio de traslado.
+* No se aplican costos adicionales (penalizaciones) por realizar transbordos entre diferentes líneas.
+
+Debido a que todas las conexiones valen lo mismo, el algoritmo **BFS** es ideal para este caso, ya que garantiza matemáticamente encontrar la ruta óptima que atraviesa el menor número de estaciones.
+
 ## Nota sobre el historial de Commits
 
 El código de este proyecto se desarrolló y probó localmente utilizando Visual Studio Code. Una vez que la solución (con los algoritmos BFS y DFS) estuvo completa y funcional, se procedió a inicializar el repositorio en Git y subir el proyecto a GitHub, razón por la cual se refleja un único commit principal.
